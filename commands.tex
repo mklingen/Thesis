@@ -1,0 +1,60 @@
+\newcommand{\blankpage}{\newpage\hbox{}\thispagestyle{empty}\newpage} % Command to insert a blank page
+\newcommand{\apriori}{\textit{a. priori}}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\ie}{\textit{i.e.}}
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
+\newcommand{\subsectionbf}[1]{\subsection{\textbf{#1}}}
+\newcommand{\sectionbf}[1]{\section{\textbf{#1}}}
+\newcommand{\figref}[1]{Fig.~\ref{#1}~}
+\newcommand{\tableref}[1]{Table ~\ref{#1}~}
+\newcommand{\sref}[1]{{see page~\pageref{#1}}}
+\newcommand{\eqnref}[1]{Eq.~\ref{#1}~}
+\newcommand{\algref}[1]{Alg.~\ref{#1}~}
+\newcommand{\Prob}{\text{P}}
+\newcommand{\Expec}{\text{E}}
+\newcommand{\qvec}{\mathbf{q}}
+\newcommand{\uvec}{\mathbf{u}}
+\newcommand{\xvec}{\mathbf{x}}
+\newcommand{\Proj}{\pi}
+\newcommand{\InvProj}{\text{Proj}^{-1}}
+\newcommand{\Q}{\mathbf{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\ROne}{\R}
+\newcommand{\RTwo}{\R^2}
+\newcommand{\RThree}{\R^3}
+\newcommand{\RN}{\R^N}
+\newcommand{\SEThree}{SE(3)}
+\newcommand{\SOThree}{SO(3)}
+\newcommand{\config}{\qvec}
+\newcommand{\inv}{^{-1}}
+\newcommand{\J}{\mathbf{J}}
+\newcommand{\trans}{^{T}}
+\newcommand{\Imagespace}{\Omega}
+\newcommand{\Image}{\mathbf{I}}
+\newcommand{\DepthImage}{\mathbf{D}}
+\newcommand{\eye}{\mathbf{I}}
+\newcommand{\pixel}{\mathbf{p}}
+\newcommand{\enc}{\theta}
+\newcommand{\DenseMap}{\mathbf{M}}
+\newcommand{\SparseMap}{\mathbf{M}}
+\newcommand{\Extr}{K_\text{cam}}
+\newcommand{\landmark}{\mathbf{l}}
+\newcommand{\measurement}{\mathbf{z}}
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{bmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{bmatrix}
+        \fi
+}
+ 

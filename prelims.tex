@@ -1,0 +1,74 @@
+\section{Articulated Linkages and Robot Arms}
+\label{sec:articulated_linkage}
+An articulated linkage is a series of rigid bodies (called \textit{links}) connected by joints. Each joint has one or more degrees of freedom, and two associated links $A$ and $B$. A degree of freedom maps a value $q \in \ROne$ to a transformation $T^{A}_B(q) \in \SEThree$, which encodes the rigid transformation between links $A$ and $B$. A degree of freedom may correspond to a rotation, translation, or both. A degree of freedom may have limits $q_\text{min}, q_\text{max}$, that constrain its motion.
+
+Robot arms are a special case of the kinematic linkage. Usually, robot arms are \textit{serial} linkages, meaning that the graph formed by links and joints is a tree, with the root fixed to the world, and allow for sensing and control of the degrees of freedom.
+
+The set of degree of freedom values $\config = [q_1, \ldots, q_N]\trans$ is called the \textit{configuration} of the linkage, and is represented as a vector. The set of all possible configurations of the linkage $\config \in \Q$ is called the \textit{configuration space} \cite{Mason2001}. 
+
+
+\subsection{Forward and Inverse Kinematics}
+\label{sec:kinematics}
+The configuration space of a linkage is related to its \textit{workspace} $\RThree$ by its \textit{forward} and \textit{inverse} kinematics. Using forward kinematics, any point on the robot's body $\xvec$ can be transformed into the workspace by the function $F_\xvec(\config) : \Q \to \RThree$. Forward kinematics encode a many-to-one relationship between a configuration and the points on the robot's body, and always has a solution. The forward kinematics can be computed merely be concatenating the link transformations together $F_\xvec(\config) = T^{N - 1}_{N}(q_N) \ldots T^{2}_3(q_2) T^{1}_2(q_1)$
+
+The inverse of the kinematics function can also be defined, which for a point on the robot's body $\xvec$, returns the configuration which puts $\xvec$ at the desired location; $F_\xvec\inv(\xvec) : \RThree \to Q$. This is in general a one-to-many function, and may have no solution.
+
+The first-order derivates of the kinematics functions can also be computed. The first-order derivative of the forward kinematics function $\J_\xvec = \frac{\partial}{\partial \config} F_\xvec \in \R^{3 \times N}$ is called the \textit{Jacobian} of the linkage. The inverse of the Jacobian $\J_\xvec\inv$ can also be defined. In general, the inverse of the Jacobian $\J_\xvec\inv$ describes the joint velocities required to move $\xvec$ at a specified linear velocity. If the robot has more or fewer degrees of freedom than $3$, the Moore-Penrose pseudoinverse of the Jacobian $\J_\xvec^{+}$ can be used instead. Through the \textit{principle of virtual work}, the transpose of the Jacobian $\J_\xvec\trans$ can be used to describe the instantaneous torques required to apply a linear force at $\xvec$.
+  
+\subsection{Encoders}
+\label{sec:encoders}
+The degrees of freedom of a robot can be measured by sensors called encoders. These include for example optical, resistive, current, and mechanical sensors. In general the output of an encoder $\enc$ can be used to estimate the value of its associated degree of freedom $q_\enc$ through an \textit{encoder calibration} function $q_\enc = K_e(\enc)$. For some encoders, the calibration function can be represented as a simple linear transformation. For other encoders, the calibration function must be more complex. 
+
+Some robots have dynamic mechanisms (such as springs, gear trains or cables) between their encoders and associated degrees of freedom. These degrees of freedom may complciate the calibration function, adding dynamic factors such as the velocity and torque of the system.
+
+\subsubsection{Gear Backlash}
+\label{sec:encoders}
+One particular dynamic effect of interest is \textit{gear backlash}, which occurs whenever a series of gears sits between the encoder and the robot's joint. This happens because tiny gaps between the gear teeth prevent the gears from being in contact all the time. Consequently, the joint or motor may rotate slightly without actually turning the gears. In principle, this limits the sensitivity of the joint encoder to small motions.
+
+\section{Data Synchronization and Interpolation}
+
+\section{Geometric Computer Vision}
+\label{sec:vision}
+\subsection{Pinhole Cameras}
+\label{sec:cameras}
+Optics describes the relation between geometric points in the world and their corresponding 2D image projections \cite{Hartley2004}. The simplest kind of optical system is a pinhole (\ie lensless) camera. A simple pinhole camera consists of a rigid transformation $T_\text{cam} \in \SEThree$, and a \textit{intrinsic matrix}
+
+\begin{equation}
+K = \left[ \begin{array}{cccc} 
+             f_x & 0 & c_x & 0 \\
+             0 &  f_y & c_y & 0\\ 
+             0 &    0 &   0 & 1
+    \end{array} \right]
+\end{equation}
+
+\noindent where $f_x, f_y$ are the focal lengths, and $c_x, c_y$ are the image center. The intrinsic matrix can be used to turn pixel coordinates $\pixel \in \Imagespace$ into homogenous intrinsic coordinates $\pixel'$ by the equation:
+
+\begin{equation} 
+	\pixel' = K \colvec{2}{\pixel}{1}
+\end{equation}
+
+\noindent the homogenous intrinsic coordinates $p'$ at depth $z$ can be converted into a point in the world $\xvec$ using the projection function
+
+\begin{equation}
+ \xvec = \Proj\left(\pixel', z\right) = T_\text{cam} \colvec{3}{\pixel'_x z}{\pixel'_y z}{z}
+\end{equation}
+
+\subsection{Stereo Triangulation}
+\label{sec:triangulation}
+\subsection{RGB-D Cameras}
+\label{sec:rgbd} 
+RGB-D cameras (or \textit{depth cameras}) are sensors which provide both color images and depth images. Projective depth cameras, such as the Microsoft \textit{Kinect}, Asus \textit{Xtion} or Occipital \textit{Structure} sensor work by projecting an infrared pattern onto the scene. By measuring the deformation of the pattern as viewed by an infrared camera, an estimate for depth can be achieved with stereo triangulation. This depth estimate is limited by the stereo baseline of the infrared camera and projector, and usually falls between 0.4 and 3 meters. 
+
+The \textit{point cloud} of a depth image is defined as all of the valid pixels in the depth image unprojected into the scene using the depth camera's intrinsics.
+
+\section{Simultaneous Localization and Mapping (SLAM)}
+\label{sec:SLAM}
+\subsection{Dense SLAM}
+\label{sec:dense_slam}
+\subsection{Graph-based SLAM}
+\label{sec:graph_slam}
+
+\section{2D Image Features and Association}
+\label{sec:image_features}
+\subsection{BRISK Image Features}
+\subsection{Landmark Association}

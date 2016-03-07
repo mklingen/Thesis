@@ -53,7 +53,7 @@
 \vbox to 2in{
 \vfill
 \begin{center}
-{\Large \strut \@title\par}
+{\Huge \strut \@title\par}
 \vfill
 {\large \begin{tabular}[t]{c}\@author\end{tabular}\par}
 \vfill
@@ -68,6 +68,7 @@
 \vskip 3em
 
 \begin{center}
+    The Robotics Institute \\
     School of Computer Science \\
     Carnegie Mellon University \\
     Pittsburgh, PA 15213
